@@ -1,6 +1,6 @@
 fn main() {
     println!("🕉️ नमस्ते विश्व!");
-    println!("Welcome to Panini - Sanskrit Programming Language");
+    println!("Welcome to Paanini - Sanskrit Programming Language");
     let x = 5;
     let y = 10;
     let योग = x + y;
@@ -16,3 +16,4 @@ fn main() {
     println!("असत्य:", असत्य);
     println!("x < y:", x < y);
 }
+

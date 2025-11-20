@@ -1,10 +1,10 @@
-# 🕉️ Panini - Sanskrit Programming Language
+# 🕉️ Paanini - Sanskrit Programming Language
 
 [![Crates.io](https://img.shields.io/crates/v/paanini-lang)](https://crates.io/crates/paanini-lang)
 [![Documentation](https://docs.rs/paanini-lang/badge.svg)](https://docs.rs/paanini-lang)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**Panini** is a Sanskrit programming language that combines the beauty of Devanagari script with Python-like syntax. Write code using Sanskrit keywords and execute it seamlessly!
+**Paanini** is a Sanskrit programming language that combines the beauty of Devanagari script with Python-like syntax. Write code using Sanskrit keywords and execute it seamlessly!
 
 ## ✨ Features
 
@@ -19,14 +19,14 @@
 
 ### Installation
 
-> **Note**: Install with `cargo install paanini-lang`, then use the `panini` command.
+> **Note**: Install with `cargo install paanini-lang`, then use the `paanini` command.
 
 #### From Crates.io (Recommended)
 ```bash
 # Install the package
 cargo install paanini-lang
-# Then use the 'panini' command
-panini --version
+# Then use the 'paanini' command
+paanini --version
 ```
 
 #### From Source
@@ -36,9 +36,9 @@ cd paanini-lang
 cargo install --path .
 ```
 
-### Your First Panini Program
+### Your First Paanini Program
 
-Create `hello.panini`:
+Create `hello.paanini`:
 ```sanskrit
 !! नमस्ते विश्व - Hello World
 दर्श("नमस्ते विश्व")
@@ -58,40 +58,40 @@ y = 10
 
 Run it:
 ```bash
-panini run hello.panini
+paanini run hello.paanini
 ```
 
 ## 🎛️ CLI Commands
 
 ### Interactive REPL
 ```bash
-panini              # Start REPL (default)
-panini repl         # Explicit REPL command
+paanini              # Start REPL (default)
+paanini repl         # Explicit REPL command
 ```
 
 ### File Execution
 ```bash
-panini run file.panini           # Execute Sanskrit source file
-panini run file.panini --verbose # Show execution details
+paanini run file.paanini           # Execute Sanskrit source file
+paanini run file.paanini --verbose # Show execution details
 ```
 
 ### Build to Binary
 ```bash
-panini build file.panini                    # Transpile and build
-panini build file.panini -o myapp          # Custom output name
-panini build file.panini --release         # Optimized build
+paanini build file.paanini                    # Transpile and build
+paanini build file.paanini -o myapp          # Custom output name
+paanini build file.paanini --release         # Optimized build
 ```
 
 ### Web IDE Server
 ```bash
-panini serve                    # Start on port 8080
-panini serve --port 3000       # Custom port
+paanini serve                    # Start on port 8080
+paanini serve --port 3000       # Custom port
 ```
 
 ### Help & Examples
 ```bash
-panini --help                  # Show all commands
-panini example                 # Display example code
+paanini --help                  # Show all commands
+paanini example                 # Display example code
 ```
 
 ## 📚 Language Reference
@@ -160,7 +160,7 @@ The web IDE provides a complete development environment:
 
 ### Access
 ```bash
-panini serve
+paanini serve
 # Open http://localhost:8080
 ```
 
@@ -203,14 +203,14 @@ This project is licensed under the [MIT License](LICENSE).
 # Build and run the web IDE
 cargo run
 # Expected output:
-# Panini IDE running at http://localhost:8080
+# Paanini IDE running at http://localhost:8080
 # Open http://localhost:8080 in your browser
 ```
 
 ## CLI File Execution
 ```powershell
 # Run a file and print results to stdout
-cargo run -- path\to\program.panini
+cargo run -- path\to\program.paanini
 ```
 
 ## Language Basics
@@ -240,7 +240,7 @@ x = 5
 greet("भारत")
 ```
 
-## Extending Panini
+## Extending Paanini
 - Add Sanskrit keywords (`यदि` for `if`, `अन्यथा` for `else`) to the interpreter.
 - Expand the glossary for richer translations.
 - Implement arithmetic with numbers.
@@ -249,7 +249,7 @@ greet("भारत")
 ## Build Release
 ```powershell
 cargo build --release
-# Binary: target\release\panini(.exe)
+# Binary: target\release\paanini(.exe)
 ```
 
 ## Notes

@@ -7,21 +7,21 @@ const { execSync } = require('child_process');
 
 const VERSION = '0.1.0';
 const REPO_OWNER = 'rithu453';
-const REPO_NAME = 'paanini-lang';
+const REPO_NAME = 'paanini';
 const BIN_DIR = path.join(__dirname, 'bin');
-const PLATFORM_BIN = process.platform === 'win32' ? 'panini.exe' : 'panini';
+const PLATFORM_BIN = process.platform === 'win32' ? 'paanini.exe' : 'paanini';
 const BINARY_PATH = path.join(BIN_DIR, PLATFORM_BIN);
 
 const PLATFORM_TARGETS = {
   win32: {
-    x64: { target: 'x86_64-pc-windows-gnu', asset: 'panini-x86_64-pc-windows-gnu.exe' },
+    x64: { target: 'x86_64-pc-windows-gnu', asset: 'paanini-x86_64-pc-windows-gnu.exe' },
   },
   darwin: {
-    x64: { target: 'x86_64-apple-darwin', asset: 'panini-x86_64-apple-darwin' },
-    arm64: { target: 'aarch64-apple-darwin', asset: 'panini-aarch64-apple-darwin' },
+    x64: { target: 'x86_64-apple-darwin', asset: 'paanini-x86_64-apple-darwin' },
+    arm64: { target: 'aarch64-apple-darwin', asset: 'paanini-aarch64-apple-darwin' },
   },
   linux: {
-    x64: { target: 'x86_64-unknown-linux-gnu', asset: 'panini-x86_64-unknown-linux-gnu' },
+    x64: { target: 'x86_64-unknown-linux-gnu', asset: 'paanini-x86_64-unknown-linux-gnu' },
   },
 };
 
@@ -49,7 +49,7 @@ function removeExistingBinary() {
       fs.unlinkSync(BINARY_PATH);
     }
   } catch (error) {
-    throw new Error(`Failed to remove existing Panini binary at ${BINARY_PATH}: ${error.message}`);
+    throw new Error(`Failed to remove existing Paanini binary at ${BINARY_PATH}: ${error.message}`);
   }
 }
 
@@ -65,7 +65,7 @@ function downloadBinary(url, destination) {
 
     function requestBinary(currentUrl, redirectCount = 0) {
       if (redirectCount > maxRedirects) {
-        reject(new Error('Too many redirects while downloading Panini binary.'));
+        reject(new Error('Too many redirects while downloading Paanini binary.'));
         return;
       }
 
@@ -76,7 +76,7 @@ function downloadBinary(url, destination) {
           if ([301, 302, 303, 307, 308].includes(statusCode)) {
             const location = response.headers.location;
             if (!location) {
-              reject(new Error('Redirect location missing while downloading Panini binary.'));
+              reject(new Error('Redirect location missing while downloading Paanini binary.'));
               return;
             }
             const redirectedUrl = new URL(location, currentUrl).toString();
@@ -158,7 +158,7 @@ function buildFromSource() {
     switchToGnuToolchain();
   }
 
-  console.log('Building Panini from source with `cargo build --release`...');
+  console.log('Building Paanini from source with `cargo build --release`...');
   execSync('cargo build --release', { cwd: projectRoot, stdio: 'inherit' });
 
   const builtBinary = path.join(projectRoot, 'target', 'release', PLATFORM_BIN);
@@ -178,32 +178,32 @@ async function install() {
   const { asset } = resolveTarget();
   const downloadUrl = `https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/download/v${VERSION}/${asset}`;
 
-  console.log(`Attempting to download Panini binary from ${downloadUrl}`);
+  console.log(`Attempting to download Paanini binary from ${downloadUrl}`);
 
   try {
     await downloadBinary(downloadUrl, BINARY_PATH);
-    console.log('Panini binary downloaded successfully.');
+    console.log('Paanini binary downloaded successfully.');
     return;
   } catch (downloadError) {
     console.warn(`Binary download failed: ${downloadError.message}`);
-    console.warn('Falling back to building Panini from source. This may take a while.');
+    console.warn('Falling back to building Paanini from source. This may take a while.');
   }
 
   try {
     buildFromSource();
-    console.log('Panini built from source successfully.');
+    console.log('Paanini built from source successfully.');
   } catch (buildError) {
-    throw new Error(`Failed to build Panini from source: ${buildError.message}`);
+    throw new Error(`Failed to build Paanini from source: ${buildError.message}`);
   }
 }
 
 (async () => {
-  console.log(`Installing Panini v${VERSION} for ${process.platform} (${process.arch})`);
+  console.log(`Installing Paanini v${VERSION} for ${process.platform} (${process.arch})`);
   try {
     await install();
-    console.log('Panini installation complete.');
+    console.log('Paanini installation complete.');
   } catch (error) {
-    console.error('Panini installation failed.');
+    console.error('Paanini installation failed.');
     console.error(error instanceof Error ? error.message : error);
     console.error('If the issue persists, ensure Rust is installed and try `cargo install paanini-lang` or open an issue on GitHub.');
     process.exit(1);

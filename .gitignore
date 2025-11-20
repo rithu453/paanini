@@ -4,3 +4,4 @@ target/
 **/*.swo
 /.vscode/
 Cargo.lock
+NPM_PACKAGE_CREATION_PROMPT.md

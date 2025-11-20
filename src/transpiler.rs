@@ -1,13 +1,13 @@
 use anyhow::{Result, anyhow};
 
-/// Transpile Panini Sanskrit code to Rust code
-pub fn transpile_to_rust(panini_code: &str) -> Result<String> {
+/// Transpile Paanini Sanskrit code to Rust code
+pub fn transpile_to_rust(paanini_code: &str) -> Result<String> {
     let mut rust_code = String::new();
     
     // Add Rust boilerplate
     rust_code.push_str("fn main() {\n");
     
-    let lines: Vec<&str> = panini_code.lines().collect();
+    let lines: Vec<&str> = paanini_code.lines().collect();
     let indent_level = 1;
     
     for line in lines {
@@ -129,23 +129,23 @@ mod tests {
 
     #[test]
     fn test_simple_transpilation() {
-        let panini_code = r#"
+        let paanini_code = r#"
 !! Simple hello world
 दर्श("नमस्ते विश्व")
         "#;
         
-        let result = transpile_to_rust(panini_code).unwrap();
+        let result = transpile_to_rust(paanini_code).unwrap();
         assert!(result.contains("println!(\"नमस्ते विश्व\");"));
     }
     
     #[test]
     fn test_variable_assignment() {
-        let panini_code = r#"
+        let paanini_code = r#"
 x = 5
 दर्श(x)
         "#;
         
-        let result = transpile_to_rust(panini_code).unwrap();
+        let result = transpile_to_rust(paanini_code).unwrap();
         assert!(result.contains("let x = 5;"));
         assert!(result.contains("println!(x);"));
     }

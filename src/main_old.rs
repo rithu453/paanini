@@ -64,7 +64,7 @@ async fn main() -> anyhow::Result<()> {
 
     let addr: SocketAddr = "0.0.0.0:8080".parse().unwrap();
     let listener = tokio::net::TcpListener::bind(addr).await?;
-    println!("Panini IDE running at http://localhost:8080");
+    println!("Paanini IDE running at http://localhost:8080");
     axum::serve(listener, app).await?;
     Ok(())
 }

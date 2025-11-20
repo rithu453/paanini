@@ -2,6 +2,6 @@ node_modules/
 *.log
 npm-debug.log*
 .DS_Store
-bin/panini
-bin/panini.exe
+bin/paanini
+bin/paanini.exe
 test-output/

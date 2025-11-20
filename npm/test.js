@@ -16,22 +16,22 @@ function runCheck(args, description) {
   assert(result.error == null, `${description} failed to execute: ${result.error}`);
   assert(result.status === 0, `${description} exited with code ${result.status}. stderr: ${result.stderr}`);
   const combinedOutput = `${result.stdout || ''}${result.stderr || ''}`;
-  assert(/Panini/i.test(combinedOutput), `${description} output does not mention Panini.`);
+  assert(/Paanini/i.test(combinedOutput), `${description} output does not mention Paanini.`);
   console.log(`✔ ${description}`);
 }
 
 (function main() {
   try {
     const binaryPath = getBinaryPath();
-    assert(fs.existsSync(binaryPath), `Panini binary not found at ${binaryPath}.`);
-    console.log(`Panini binary located at ${binaryPath}`);
+    assert(fs.existsSync(binaryPath), `Paanini binary not found at ${binaryPath}.`);
+    console.log(`Paanini binary located at ${binaryPath}`);
 
-    runCheck(['--version'], 'panini --version');
-    runCheck(['--help'], 'panini --help');
+    runCheck(['--version'], 'paanini --version');
+    runCheck(['--help'], 'paanini --help');
 
-    console.log('All Panini tests passed.');
+    console.log('All Paanini tests passed.');
   } catch (error) {
-    console.error('Panini npm package test failed.');
+    console.error('Paanini npm package test failed.');
     console.error(error instanceof Error ? error.message : error);
     process.exit(1);
   }

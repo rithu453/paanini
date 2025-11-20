@@ -1,10 +1,10 @@
 [package]
 name = "paanini-lang"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
-description = "Panini - Sanskrit programming language with Python-like syntax"
+description = "Paanini - Sanskrit programming language with Python-like syntax"
 license = "MIT"
-authors = ["Panini Developers <panini@example.com>"]
+authors = ["Paanini Developers <Paanini@example.com>"]
 repository = "https://github.com/YOUR_USERNAME/paanini-lang"
 homepage = "https://github.com/YOUR_USERNAME/paanini-lang"
 documentation = "https://docs.rs/paanini-lang"
@@ -14,7 +14,7 @@ readme = "README.md"
 exclude = ["target/", "*.log"]
 
 [[bin]]
-name = "panini"
+name = "paanini"
 path = "src/main.rs"
 
 [dependencies]
@@ -37,3 +37,4 @@ lto = true
 codegen-units = 1
 panic = "abort"
 strip = true
+

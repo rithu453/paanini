@@ -1,4 +1,4 @@
-# ===== 🕉️ Panini Programming Language Demo =====
+# ===== 🕉️ Paanini Programming Language Demo =====
 
 # Variables and Basic Math
 x = 42
@@ -19,7 +19,7 @@ full_message = greeting + " " + target + "!"
 
 # Mixed Type Concatenation
 version = 0.1
-status = "Panini v" + version + " - " + सत्य
+status = "Paanini v" + version + " - " + सत्य
 दर्श("✓ Mixed Types: " + status)
 
 # Built-in Functions

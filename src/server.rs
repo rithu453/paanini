@@ -42,7 +42,7 @@ pub async fn start_server(port: u16) {
         .await
         .unwrap();
 
-    println!("🕉️  Panini IDE server running at http://localhost:{}", port);
+    println!("🕉️  Paanini IDE server running at http://localhost:{}", port);
     println!("📝 Open your browser to start coding in Sanskrit!");
 
     axum::serve(listener, app).await.unwrap();
@@ -64,7 +64,7 @@ async fn run_code(
 async fn health_check() -> Json<serde_json::Value> {
     Json(serde_json::json!({
         "status": "healthy",
-        "service": "panini-ide",
+        "service": "paanini-ide",
         "version": "0.1.0"
     }))
 }

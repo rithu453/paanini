@@ -2,17 +2,17 @@ const { spawn } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
-const PLATFORM_BIN = process.platform === 'win32' ? 'panini.exe' : 'panini';
+const PLATFORM_BIN = process.platform === 'win32' ? 'paanini.exe' : 'paanini';
 
 function getBinaryPath() {
   const binPath = path.join(__dirname, 'bin', PLATFORM_BIN);
   if (!fs.existsSync(binPath)) {
-    throw new Error(`Panini binary not found at ${binPath}. Try reinstalling the package or run \`node install.js\`.`);
+    throw new Error(`Paanini binary not found at ${binPath}. Try reinstalling the package or run \`node install.js\`.`);
   }
   return binPath;
 }
 
-function runPanini(args = []) {
+function runPaanini(args = []) {
   return new Promise((resolve, reject) => {
     const normalizedArgs = Array.isArray(args) ? args.map(String) : [String(args)];
     let stdout = '';
@@ -47,7 +47,7 @@ async function runFile(filePath) {
   if (!filePath) {
     throw new Error('runFile requires a file path argument.');
   }
-  return runPanini(['run', path.resolve(filePath)]);
+  return runPaanini(['run', path.resolve(filePath)]);
 }
 
 async function transpile(inputPath, outputPath) {
@@ -57,7 +57,7 @@ async function transpile(inputPath, outputPath) {
   if (!outputPath) {
     throw new Error('transpile requires an output path argument.');
   }
-  return runPanini(['build', path.resolve(inputPath), '-o', path.resolve(outputPath)]);
+  return runPaanini(['build', path.resolve(inputPath), '-o', path.resolve(outputPath)]);
 }
 
 function startRepl(options = {}) {
@@ -73,7 +73,7 @@ function startServer(port = 8080, options = {}) {
 
 module.exports = {
   getBinaryPath,
-  runPanini,
+  runPaanini,
   runFile,
   transpile,
   startRepl,

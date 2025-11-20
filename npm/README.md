@@ -1,6 +1,6 @@
-# Panini (पाणिनि) — Sanskrit Programming Language for Node.js
+# Paanini (पाणिनि) — Sanskrit Programming Language for Node.js
 
-Panini is a modern Sanskrit programming language with Python-like syntax, packaged for Node.js developers. This npm wrapper downloads (or builds) the Rust-powered `panini` CLI so you can run Panini code on Windows, macOS, and Linux without installing Rust manually.
+Paanini is a modern Sanskrit programming language with Python-like syntax, packaged for Node.js developers. This npm wrapper downloads (or builds) the Rust-powered `paanini` CLI so you can run Paanini code on Windows, macOS, and Linux without installing Rust manually.
 
 > **Rust crate**: [`paanini-lang`](https://crates.io/crates/paanini-lang) · **Version**: 0.1.0 · **License**: MIT
 
@@ -20,20 +20,20 @@ During installation the wrapper tries to download a prebuilt binary from GitHub 
 
 ### CLI Commands
 
-Panini provides a familiar CLI workflow. After installing, run:
+Paanini provides a familiar CLI workflow. After installing, run:
 
 ```bash
-panini                      # Start interactive REPL
-panini repl                 # Explicit REPL command
-panini run path/to/file.panini
-panini run file.panini --verbose
-panini build file.panini
-panini build file.panini -o myapp --release
-panini serve                # Launch web IDE (default port 8080)
-panini serve --port 3000
-panini example              # Show example Sanskrit source
-panini --help               # Display CLI help
-panini --version            # Show version
+paanini                      # Start interactive REPL
+paanini repl                 # Explicit REPL command
+paanini run path/to/file.paanini
+paanini run file.paanini --verbose
+paanini build file.paanini
+paanini build file.paanini -o myapp --release
+paanini serve                # Launch web IDE (default port 8080)
+paanini serve --port 3000
+paanini example              # Show example Sanskrit source
+paanini --help               # Display CLI help
+paanini --version            # Show version
 ```
 
 ### Programmatic API
@@ -41,7 +41,7 @@ panini --version            # Show version
 ```javascript
 const {
   getBinaryPath,
-  runPanini,
+  runPaanini,
   runFile,
   transpile,
   startRepl,
@@ -49,15 +49,15 @@ const {
 } = require('paanini-lang');
 
 (async () => {
-  // Execute arbitrary Panini CLI arguments
-  const { code, stdout } = await runPanini(['--version']);
+  // Execute arbitrary Paanini CLI arguments
+  const { code, stdout } = await runPaanini(['--version']);
   console.log(code, stdout.trim());
 
-  // Run a Panini file
-  await runFile('examples/hello.panini');
+  // Run a Paanini file
+  await runFile('examples/hello.paanini');
 
   // Transpile to Rust
-  await transpile('examples/app.panini', 'dist/app');
+  await transpile('examples/app.paanini', 'dist/app');
 
   // Start the REPL (inherits stdio)
   const repl = startRepl();
@@ -71,7 +71,7 @@ All functions throw helpful errors when the binary is missing or an argument is 
 
 ### Language Example
 
-```panini
+```paanini
 !! Variables and Math
 चर x = 10
 चर y = 20
@@ -98,10 +98,10 @@ All functions throw helpful errors when the binary is missing or an argument is 
 
 | Platform | Architecture | Target Triple | Binary |
 |----------|--------------|---------------|--------|
-| Windows  | x64          | `x86_64-pc-windows-gnu` | `panini-x86_64-pc-windows-gnu.exe` |
-| macOS    | x64          | `x86_64-apple-darwin`   | `panini-x86_64-apple-darwin` |
-| macOS    | arm64        | `aarch64-apple-darwin`  | `panini-aarch64-apple-darwin` |
-| Linux    | x64          | `x86_64-unknown-linux-gnu` | `panini-x86_64-unknown-linux-gnu` |
+| Windows  | x64          | `x86_64-pc-windows-gnu` | `paanini-x86_64-pc-windows-gnu.exe` |
+| macOS    | x64          | `x86_64-apple-darwin`   | `paanini-x86_64-apple-darwin` |
+| macOS    | arm64        | `aarch64-apple-darwin`  | `paanini-aarch64-apple-darwin` |
+| Linux    | x64          | `x86_64-unknown-linux-gnu` | `paanini-x86_64-unknown-linux-gnu` |
 
 Prebuilt binaries must be uploaded to GitHub Releases at:
 ```
@@ -111,26 +111,26 @@ https://github.com/YOUR_USERNAME/paanini-lang/releases/download/v0.1.0/<binary-n
 ## Building from Source
 
 1. Ensure [Rust](https://www.rust-lang.org/tools/install) and Cargo are installed.
-2. Clone the Panini repository and build the release binary:
+2. Clone the Paanini repository and build the release binary:
    ```bash
    cargo build --release
    ```
-3. The npm installer copies the binary from `target/release/panini[.exe]` into the package's `bin/` directory if downloads are unavailable.
+3. The npm installer copies the binary from `target/release/paanini[.exe]` into the package's `bin/` directory if downloads are unavailable.
 4. On Windows the installer automatically switches to the `stable-x86_64-pc-windows-gnu` toolchain to avoid MSVC linker issues. Ensure `rustup` is installed.
 
 ## Troubleshooting
 
 - **Binary missing:** Run `node install.js` inside the `npm/` folder or reinstall the package.
 - **Rust not installed:** Install via `rustup` and rerun installation.
-- **Custom builds:** Place your compiled `panini` binary into `node_modules/paanini-lang/bin/`.
+- **Custom builds:** Place your compiled `paanini` binary into `node_modules/paanini-lang/bin/`.
 - **File permissions (macOS/Linux):** The installer applies `chmod 755`, but you can run `chmod +x` manually if needed.
 
 ## Links
 
-- GitHub: https://github.com/YOUR_USERNAME/paanini-lang
+- GitHub: https://github.com/rithu453/paanini/releases/tag/v0.1.0
 - Crate: https://crates.io/crates/paanini-lang
-- Issues: https://github.com/YOUR_USERNAME/paanini-lang/issues
+- Issues: https://github.com/rithu453/paanini/issues
 
 ## License
 
-MIT © Panini Developers
+MIT © Paanini Developers

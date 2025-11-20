@@ -1,15 +1,15 @@
-# Complete NPM Package Creation Prompt for Panini Language
+# Complete NPM Package Creation Prompt for Paanini Language
 
 ## Context
-I have a complete Rust-based CLI application called **Panini** - a Sanskrit programming language with Python-like syntax. The Rust package is already published on crates.io as `paanini-lang`. Now I need to create a complete npm package wrapper so JavaScript/Node.js developers can use it without needing Rust installed.
+I have a complete Rust-based CLI application called **Paanini** - a Sanskrit programming language with Python-like syntax. The Rust package is already published on crates.io as `paanini-lang`. Now I need to create a complete npm package wrapper so JavaScript/Node.js developers can use it without needing Rust installed.
 
 ## Project Overview
 
-### What is Panini?
-- **Name**: Panini (पाणिनि) - Sanskrit Programming Language
+### What is Paanini?
+- **Name**: Paanini (पाणिनि) - Sanskrit Programming Language
 - **Type**: CLI tool + interpreter + transpiler + web IDE
 - **Language**: Written in Rust
-- **Published on crates.io**: `paanini-lang` (package name) with `panini` as the executable name
+- **Published on crates.io**: `paanini-lang` (package name) with `Paanini` as the executable name
 - **Version**: 0.1.0
 - **License**: MIT
 
@@ -17,25 +17,25 @@ I have a complete Rust-based CLI application called **Panini** - a Sanskrit prog
 1. **Sanskrit Keywords**: Uses Devanagari script (e.g., `यदि` for if, `अन्यथा` for else, `दर्श` for print)
 2. **Python-like Syntax**: Indentation-based, familiar structure
 3. **Multiple Interfaces**: 
-   - CLI commands (`panini run`, `panini build`, etc.)
-   - Interactive REPL (`panini repl`)
-   - Web IDE server (`panini serve --port 8080`)
+   - CLI commands (`Paanini run`, `Paanini build`, etc.)
+   - Interactive REPL (`Paanini repl`)
+   - Web IDE server (`Paanini serve --port 8080`)
    - File execution and transpilation to Rust binaries
 4. **Cross-platform**: Windows, macOS, Linux support
 
 ### Current Rust CLI Commands
 ```bash
-panini                          # Start REPL (default)
-panini repl                     # Interactive REPL
-panini run file.panini          # Execute Sanskrit file
-panini run file.panini --verbose
-panini build file.panini        # Transpile to Rust and build
-panini build file.panini -o myapp --release
-panini serve                    # Start web IDE on port 8080
-panini serve --port 3000        # Custom port
-panini --help                   # Show help
-panini --version                # Show version
-panini example                  # Show example code
+Paanini                          # Start REPL (default)
+Paanini repl                     # Interactive REPL
+Paanini run file.Paanini          # Execute Sanskrit file
+Paanini run file.Paanini --verbose
+Paanini build file.Paanini        # Transpile to Rust and build
+Paanini build file.Paanini -o myapp --release
+Paanini serve                    # Start web IDE on port 8080
+Paanini serve --port 3000        # Custom port
+Paanini --help                   # Show help
+Paanini --version                # Show version
+Paanini example                  # Show example code
 ```
 
 ### Cargo.toml (Rust Package Metadata)
@@ -44,14 +44,14 @@ panini example                  # Show example code
 name = "paanini-lang"
 version = "0.1.0"
 edition = "2021"
-description = "Panini - Sanskrit programming language with Python-like syntax"
+description = "Paanini - Sanskrit programming language with Python-like syntax"
 license = "MIT"
 repository = "https://github.com/YOUR_USERNAME/paanini-lang"
 keywords = ["sanskrit", "programming-language", "interpreter", "devanagari", "cli"]
 categories = ["command-line-utilities", "development-tools"]
 
 [[bin]]
-name = "panini"
+name = "Paanini"
 path = "src/main.rs"
 
 [dependencies]
@@ -69,7 +69,7 @@ colored = "2.0"
 ## NPM Package Requirements
 
 ### Directory Structure
-Create in: `c:\Users\marpa\Desktop\panini\npm\`
+Create in: `c:\Users\marpa\Desktop\Paanini\npm\`
 
 ```
 npm/
@@ -77,7 +77,7 @@ npm/
 ├── index.js              # Programmatic API for Node.js users
 ├── install.js            # Post-install script (downloads/builds binary)
 ├── bin/
-│   └── panini.js        # CLI wrapper script
+│   └── Paanini.js        # CLI wrapper script
 ├── README.md            # User documentation
 ├── LICENSE              # MIT license
 ├── .gitignore           # Ignore node_modules, binaries, logs
@@ -87,28 +87,28 @@ npm/
 
 ### Package Details
 - **NPM Package Name**: `paanini-lang` (same as crates.io)
-- **Executable Command**: `panini` (for consistency)
+- **Executable Command**: `Paanini` (for consistency)
 - **Version**: 0.1.0 (match Rust version)
 - **License**: MIT
 - **Repository**: https://github.com/YOUR_USERNAME/paanini-lang
 
 ### Platform Support
-- **Windows**: `win32` - Binary: `panini.exe` - Target: `x86_64-pc-windows-gnu`
-- **macOS Intel**: `darwin` + `x64` - Binary: `panini` - Target: `x86_64-apple-darwin`
-- **macOS Apple Silicon**: `darwin` + `arm64` - Binary: `panini` - Target: `aarch64-apple-darwin`
-- **Linux**: `linux` - Binary: `panini` - Target: `x86_64-unknown-linux-gnu`
+- **Windows**: `win32` - Binary: `Paanini.exe` - Target: `x86_64-pc-windows-gnu`
+- **macOS Intel**: `darwin` + `x64` - Binary: `Paanini` - Target: `x86_64-apple-darwin`
+- **macOS Apple Silicon**: `darwin` + `arm64` - Binary: `Paanini` - Target: `aarch64-apple-darwin`
+- **Linux**: `linux` - Binary: `Paanini` - Target: `x86_64-unknown-linux-gnu`
 
 ### Installation Strategy (Important!)
 The npm package should support multiple installation methods:
 
 1. **Try to download pre-built binary** from GitHub releases first:
    - URL format: `https://github.com/YOUR_USERNAME/paanini-lang/releases/download/v{VERSION}/{BINARY_NAME}`
-   - Binary names: `panini-x86_64-pc-windows-gnu.exe`, `panini-x86_64-apple-darwin`, etc.
+   - Binary names: `Paanini-x86_64-pc-windows-gnu.exe`, `Paanini-x86_64-apple-darwin`, etc.
    
 2. **Build from source as fallback** if download fails:
    - Requires Rust/Cargo installed on user's machine
    - Run `cargo build --release` from parent directory
-   - Copy binary from `../target/release/panini[.exe]` to `./bin/`
+   - Copy binary from `../target/release/Paanini[.exe]` to `./bin/`
    - **CRITICAL FOR WINDOWS**: Must handle MSVC linker issue:
      ```javascript
      // On Windows, switch to GNU toolchain if MSVC linker fails
@@ -127,10 +127,10 @@ The npm package should support multiple installation methods:
 {
   "name": "paanini-lang",
   "version": "0.1.0",
-  "description": "Panini - Sanskrit programming language with Python-like syntax. CLI tool for running, building, and developing in Sanskrit.",
+  "description": "Paanini - Sanskrit programming language with Python-like syntax. CLI tool for running, building, and developing in Sanskrit.",
   "main": "index.js",
   "bin": {
-    "panini": "./bin/panini.js"
+    "Paanini": "./bin/Paanini.js"
   },
   "scripts": {
     "postinstall": "node install.js",
@@ -143,10 +143,10 @@ The npm package should support multiple installation methods:
     "devanagari",
     "interpreter",
     "transpiler",
-    "panini",
+    "Paanini",
     "indian-languages"
   ],
-  "author": "Panini Developers",
+  "author": "Paanini Developers",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -166,7 +166,7 @@ The npm package should support multiple installation methods:
 }
 ```
 
-### CLI Wrapper (bin/panini.js)
+### CLI Wrapper (bin/Paanini.js)
 
 Must:
 1. Start with shebang: `#!/usr/bin/env node`
@@ -185,10 +185,10 @@ Provide these functions for Node.js developers:
 // Get platform-specific binary path
 function getBinaryPath()
 
-// Execute Panini CLI with arguments (returns Promise)
-function runPanini(args) // Returns: {code, stdout, stderr}
+// Execute Paanini CLI with arguments (returns Promise)
+function runPaanini(args) // Returns: {code, stdout, stderr}
 
-// Run a Panini file
+// Run a Paanini file
 async function runFile(filePath)
 
 // Transpile to Rust
@@ -201,7 +201,7 @@ function startRepl()
 function startServer(port = 8080)
 
 // Export all functions
-module.exports = { getBinaryPath, runPanini, runFile, transpile, startRepl, startServer }
+module.exports = { getBinaryPath, runPaanini, runFile, transpile, startRepl, startServer }
 ```
 
 ### Install Script (install.js)
@@ -211,7 +211,7 @@ Must handle:
 2. **Download pre-built binary**:
    - Use `https` module (Node.js built-in)
    - Handle redirects (302/301 status codes)
-   - Save to `./bin/panini[.exe]`
+   - Save to `./bin/Paanini[.exe]`
    - Set executable permissions on Unix
 3. **Build from source fallback**:
    - Check if Cargo is installed: `execSync('cargo --version')`
@@ -231,7 +231,7 @@ Should verify:
 1. Binary exists at correct path
 2. Can execute `--version` command
 3. Can execute `--help` command
-4. Output contains "Panini"
+4. Output contains "Paanini"
 5. Exit codes are correct
 
 ### README.md for npm
@@ -245,11 +245,11 @@ Must include:
 6. **Building from source**: Explain Rust requirement if pre-built fails
 7. **Links**: GitHub, crates.io, documentation
 
-### Example Panini Code (for README)
+### Example Paanini Code (for README)
 
 Include these examples:
 
-```panini
+```Paanini
 !! Variables and Math
 चर x = 10
 चर y = 20
@@ -279,8 +279,8 @@ node_modules/
 *.log
 npm-debug.log*
 .DS_Store
-bin/panini
-bin/panini.exe
+bin/Paanini
+bin/Paanini.exe
 test-output/
 ```
 
@@ -316,7 +316,7 @@ Include instructions for:
 4. **GitHub Releases**:
    - Pre-built binaries should be uploaded to GitHub releases
    - Use version tags: `v0.1.0`, `v0.1.1`, etc.
-   - Binary naming convention: `panini-{rust-target}{.exe}`
+   - Binary naming convention: `Paanini-{rust-target}{.exe}`
 
 ### Testing Checklist
 
@@ -326,7 +326,7 @@ Before publishing:
 - [ ] Test on Linux
 - [ ] Test `npm install -g` locally
 - [ ] Test `npx paanini-lang` without installation
-- [ ] Test CLI commands: `panini --version`, `panini --help`, `panini repl`
+- [ ] Test CLI commands: `Paanini --version`, `Paanini --help`, `Paanini repl`
 - [ ] Test programmatic API in Node.js script
 - [ ] Verify binary downloads work (if GitHub releases are set up)
 - [ ] Verify build from source works
@@ -336,14 +336,14 @@ Before publishing:
 
 1. Build Rust binary: `cargo build --release`
 2. Test npm package locally: `cd npm && npm test`
-3. Test with npm link: `npm link` then `panini --help`
+3. Test with npm link: `npm link` then `Paanini --help`
 4. Login to npm: `npm login`
 5. Publish: `npm publish`
 6. (Optional) Create GitHub release with pre-built binaries for all platforms
 
 ## AI Assistant Instructions
 
-Please create the complete npm package in the `c:\Users\marpa\Desktop\panini\npm\` directory with:
+Please create the complete npm package in the `c:\Users\marpa\Desktop\Paanini\npm\` directory with:
 
 1. **All files listed above** with complete implementations
 2. **Robust error handling** for all edge cases
@@ -357,3 +357,4 @@ Please create the complete npm package in the `c:\Users\marpa\Desktop\panini\npm
 10. **Proper executable permissions** on Unix systems
 
 Make sure everything follows npm best practices and the package is ready to publish after testing.
+

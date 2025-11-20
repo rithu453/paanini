@@ -1,6 +1,6 @@
-# Panini npm Wrapper — Development Guide
+# Paanini npm Wrapper — Development Guide
 
-This document describes how to work on the `paanini-lang` npm package that wraps the Rust-based Panini CLI.
+This document describes how to work on the `paanini-lang` npm package that wraps the Rust-based Paanini CLI.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ This document describes how to work on the `paanini-lang` npm package that wraps
    ```bash
    cargo build --release
    ```
-2. The resulting executable is at `target/release/panini` (or `panini.exe` on Windows).
+2. The resulting executable is at `target/release/Paanini` (or `Paanini.exe` on Windows).
 
 ## 2. Install npm Dependencies
 
@@ -41,7 +41,7 @@ Execute the built-in smoke tests:
 ```bash
 npm test
 ```
-`test.js` verifies that the binary exists and that `panini --version` and `panini --help` succeed.
+`test.js` verifies that the binary exists and that `Paanini --version` and `Paanini --help` succeed.
 
 ## 5. Test via npm Link
 
@@ -51,7 +51,7 @@ npm test
    ```
 2. In another terminal, invoke the CLI globally:
    ```bash
-   panini --help
+   Paanini --help
    ```
 3. Remove the link after testing:
    ```bash
@@ -73,16 +73,16 @@ npm test
 
 ## 7. Create GitHub Releases with Prebuilt Binaries
 
-1. Build Panini for each target:
+1. Build Paanini for each target:
    - Windows: `cargo build --release --target x86_64-pc-windows-gnu`
    - macOS (Intel): `cargo build --release --target x86_64-apple-darwin`
    - macOS (Apple Silicon): `cargo build --release --target aarch64-apple-darwin`
    - Linux: `cargo build --release --target x86_64-unknown-linux-gnu`
 2. Rename the binaries to match installer expectations:
-   - `panini-x86_64-pc-windows-gnu.exe`
-   - `panini-x86_64-apple-darwin`
-   - `panini-aarch64-apple-darwin`
-   - `panini-x86_64-unknown-linux-gnu`
+   - `Paanini-x86_64-pc-windows-gnu.exe`
+   - `Paanini-x86_64-apple-darwin`
+   - `Paanini-aarch64-apple-darwin`
+   - `Paanini-x86_64-unknown-linux-gnu`
 3. Create a release tagged `v0.1.0` (update the tag for future versions) and upload the binaries.
 4. Update the changelog/notes and publish the release.
 
@@ -105,3 +105,4 @@ npm test
 
 - File bugs or feature requests at https://github.com/YOUR_USERNAME/paanini-lang/issues.
 - Include platform, architecture, Node.js version, and installation logs when reporting installer problems.
+

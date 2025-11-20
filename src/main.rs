@@ -12,19 +12,19 @@ mod transpiler;
 use interpreter::Interpreter;
 
 #[derive(Parser)]
-#[command(name = "panini")]
-#[command(about = "🕉️  Panini - Sanskrit programming language with Python-like syntax")]
+#[command(name = "paanini")]
+#[command(about = "🕉️  Paanini - Sanskrit programming language with Python-like syntax")]
 #[command(version = "0.1.0")]
-#[command(author = "Panini Developers")]
+#[command(author = "Paanini Developers")]
 #[command(long_about = "
-Panini is a Sanskrit programming language that combines the beauty of Devanagari script 
+Paanini is a Sanskrit programming language that combines the beauty of Devanagari script 
 with Python-like syntax. Write code using Sanskrit keywords and execute it seamlessly.
 
 Examples:
-  panini                          # Start interactive REPL
-  panini run hello.panini         # Run a Sanskrit source file
-  panini build hello.panini       # Transpile to Rust and build binary
-  panini serve --port 8080        # Start web IDE server
+    paanini                          # Start interactive REPL
+    paanini run hello.paanini         # Run a Sanskrit source file
+    paanini build hello.paanini       # Transpile to Rust and build binary
+    paanini serve --port 8080        # Start web IDE server
 ")]
 struct Cli {
     #[command(subcommand)]
@@ -37,11 +37,11 @@ enum Commands {
     #[command(about = "Start interactive Sanskrit REPL")]
     Repl,
     
-    /// Run a Panini source file
-    #[command(about = "Execute a .panini source file")]
+    /// Run a Paanini source file
+    #[command(about = "Execute a .paanini source file")]
     Run {
-        /// Path to .panini source file
-        #[arg(help = "Path to the .panini file to execute")]
+        /// Path to .paanini source file
+        #[arg(help = "Path to the .paanini file to execute")]
         file: String,
         
         /// Show detailed execution information
@@ -49,11 +49,11 @@ enum Commands {
         verbose: bool,
     },
     
-    /// Build Panini code to Rust binary (transpilation)
-    #[command(about = "Transpile .panini code to Rust and build executable")]
+    /// Build Paanini code to Rust binary (transpilation)
+    #[command(about = "Transpile .paanini code to Rust and build executable")]
     Build {
-        /// Path to .panini source file
-        #[arg(help = "Path to the .panini file to build")]
+        /// Path to .paanini source file
+        #[arg(help = "Path to the .paanini file to build")]
         file: String,
         
         /// Output binary name (optional)
@@ -66,14 +66,14 @@ enum Commands {
     },
     
     /// Start web IDE server
-    #[command(about = "Start the web-based Panini IDE")]
+    #[command(about = "Start the web-based Paanini IDE")]
     Serve {
         /// Port to run server on
         #[arg(short, long, default_value = "8080", help = "Port number for web server")]
         port: u16,
     },
     
-    /// Show example Panini code
+    /// Show example Paanini code
     #[command(about = "Display example Sanskrit code")]
     Example,
 }
@@ -112,7 +112,7 @@ fn start_repl() {
     let stdin = io::stdin();
 
     loop {
-        print!("{}", "panini> ".bright_blue().bold());
+        print!("{}", "paanini> ".bright_blue().bold());
         io::stdout().flush().unwrap();
 
         let mut input = String::new();
@@ -169,8 +169,8 @@ fn run_file(file_path: &str, verbose: bool) {
         std::process::exit(1);
     }
 
-    if !file_path.ends_with(".panini") {
-        eprintln!("{} File should have .panini extension", "चेतावनी:".bright_yellow().bold());
+    if !file_path.ends_with(".paanini") {
+        eprintln!("{} File should have .paanini extension", "चेतावनी:".bright_yellow().bold());
     }
 
     if verbose {
@@ -272,7 +272,7 @@ fn build_file(file_path: &str, output_name: Option<&str>, release: bool) {
 }
 
 fn show_example() {
-    println!("{}", "📚 Panini Sanskrit Programming Examples".bright_blue().bold());
+    println!("{}", "📚 Paanini Sanskrit Programming Examples".bright_blue().bold());
     println!();
     
     let example_code = r#"!! नमस्ते विश्व - Hello World
@@ -304,13 +304,13 @@ greet("भारत")"#;
     println!("{}", example_code.bright_white());
     println!();
     println!("{}", "💡 Usage:".bright_yellow().bold());
-    println!("  {} Save the above code as 'hello.panini'", "1.".bright_cyan());
-    println!("  {} Run with: panini run hello.panini", "2.".bright_cyan());
-    println!("  {} Build with: panini build hello.panini", "3.".bright_cyan());
+    println!("  {} Save the above code as 'hello.paanini'", "1.".bright_cyan());
+    println!("  {} Run with: paanini run hello.paanini", "2.".bright_cyan());
+    println!("  {} Build with: paanini build hello.paanini", "3.".bright_cyan());
 }
 
 fn print_welcome() {
-    println!("{}", "🕉️  Panini REPL प्रारम्भः".bright_yellow().bold());
+    println!("{}", "🕉️  Paanini REPL प्रारम्भः".bright_yellow().bold());
     println!("{}", "Sanskrit Programming Language v0.1.0".bright_blue());
     println!("{}", "Type 'help' for commands, 'exit' to quit.".bright_white());
     println!();

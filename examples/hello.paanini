@@ -1,8 +1,8 @@
 !! नमस्ते विश्व - Hello World Example
-!! This is a simple introduction to Panini programming
+!! This is a simple introduction to Paanini programming
 
 दर्श("🕉️ नमस्ते विश्व!")
-दर्श("Welcome to Panini - Sanskrit Programming Language")
+दर्श("Welcome to Paanini - Sanskrit Programming Language")
 
 !! Variables and basic math
 x = 5
