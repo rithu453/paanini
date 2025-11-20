@@ -1,6 +1,6 @@
 {
   "name": "paanini-lang",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Paanini - Sanskrit programming language with Python-like syntax. CLI tool for running, building, and developing in Sanskrit.",
   "main": "index.js",
   "bin": {
