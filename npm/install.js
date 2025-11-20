@@ -5,7 +5,8 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-const VERSION = '0.1.0';
+const packageJson = require('./package.json');
+const VERSION = packageJson.version;
 const REPO_OWNER = 'rithu453';
 const REPO_NAME = 'paanini';
 const BIN_DIR = path.join(__dirname, 'bin');
@@ -43,16 +44,6 @@ function resolveTarget() {
   return archInfo;
 }
 
-function removeExistingBinary() {
-  try {
-    if (fs.existsSync(BINARY_PATH)) {
-      fs.unlinkSync(BINARY_PATH);
-    }
-  } catch (error) {
-    throw new Error(`Failed to remove existing Paanini binary at ${BINARY_PATH}: ${error.message}`);
-  }
-}
-
 function setExecutablePermissions(filePath) {
   if (process.platform !== 'win32') {
     fs.chmodSync(filePath, 0o755);
@@ -62,6 +53,7 @@ function setExecutablePermissions(filePath) {
 function downloadBinary(url, destination) {
   return new Promise((resolve, reject) => {
     const maxRedirects = 5;
+    const tempDestination = `${destination}.download`;
 
     function requestBinary(currentUrl, redirectCount = 0) {
       if (redirectCount > maxRedirects) {
@@ -91,7 +83,7 @@ function downloadBinary(url, destination) {
             return;
           }
 
-          const fileStream = fs.createWriteStream(destination);
+          const fileStream = fs.createWriteStream(tempDestination);
           response.pipe(fileStream);
 
           fileStream.on('finish', () => {
@@ -101,9 +93,20 @@ function downloadBinary(url, destination) {
                 return;
               }
               try {
-                setExecutablePermissions(destination);
+                setExecutablePermissions(tempDestination);
+                if (fs.existsSync(destination)) {
+                  fs.unlinkSync(destination);
+                }
+                fs.renameSync(tempDestination, destination);
                 resolve();
               } catch (permissionError) {
+                try {
+                  if (fs.existsSync(tempDestination)) {
+                    fs.unlinkSync(tempDestination);
+                  }
+                } catch (_) {
+                  // ignore cleanup errors
+                }
                 reject(permissionError);
               }
             });
@@ -111,7 +114,7 @@ function downloadBinary(url, destination) {
 
           fileStream.on('error', (streamError) => {
             fileStream.close(() => {
-              fs.unlink(destination, () => reject(streamError));
+              fs.unlink(tempDestination, () => reject(streamError));
             });
           });
         })
@@ -173,7 +176,8 @@ function buildFromSource() {
 
 async function install() {
   ensureDir(BIN_DIR);
-  removeExistingBinary();
+
+  const bundledBinaryExists = fs.existsSync(BINARY_PATH);
 
   const { asset } = resolveTarget();
   const downloadUrl = `https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/download/v${VERSION}/${asset}`;
@@ -186,10 +190,20 @@ async function install() {
     return;
   } catch (downloadError) {
     console.warn(`Binary download failed: ${downloadError.message}`);
-    console.warn('Falling back to building Paanini from source. This may take a while.');
+  }
+
+  if (bundledBinaryExists && fs.existsSync(BINARY_PATH)) {
+    console.log('Using bundled Paanini binary included with the npm package.');
+    return;
+  }
+
+  if (bundledBinaryExists) {
+    console.log('Falling back to bundled Paanini binary included with the npm package.');
+    return;
   }
 
   try {
+    console.warn('Falling back to building Paanini from source. This may take a while.');
     buildFromSource();
     console.log('Paanini built from source successfully.');
   } catch (buildError) {
