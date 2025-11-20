@@ -1,0 +1,34 @@
+# Panini Programming Language - Working Features Test
+
+## Basic Variables and Arithmetic
+x = 42
+y = 8
+result = x + y
+दर्श("Basic Math: " + x + " + " + y + " = " + result)
+
+## Sanskrit Boolean Literals
+truth = सत्य
+falsehood = असत्य
+दर्श("Boolean values: " + truth + ", " + falsehood)
+
+## String Operations
+greeting = "🕉️ नमस्ते"
+name = "विश्व"
+message = greeting + " " + name + "!"
+दर्श(message)
+
+## Numbers and Mixed Operations
+temperature = 25.5
+weather_report = "आज का तापमान: " + temperature + "°C"
+दर्श(weather_report)
+
+## List Creation (परिधि function)
+numbers = परिधि(5)
+दर्श("संख्याएं: " + numbers)
+
+## Multiple Variable Operations
+a = 10
+b = 20
+c = 30
+sum_abc = a + b + c
+दर्श("योग: " + a + " + " + b + " + " + c + " = " + sum_abc)

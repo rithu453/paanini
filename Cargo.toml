@@ -1,0 +1,39 @@
+[package]
+name = "paanini-lang"
+version = "0.1.0"
+edition = "2021"
+description = "Panini - Sanskrit programming language with Python-like syntax"
+license = "MIT"
+authors = ["Panini Developers <panini@example.com>"]
+repository = "https://github.com/YOUR_USERNAME/paanini-lang"
+homepage = "https://github.com/YOUR_USERNAME/paanini-lang"
+documentation = "https://docs.rs/paanini-lang"
+keywords = ["sanskrit", "programming-language", "interpreter", "devanagari", "cli"]
+categories = ["command-line-utilities", "development-tools"]
+readme = "README.md"
+exclude = ["target/", "*.log"]
+
+[[bin]]
+name = "panini"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.4", features = ["derive"] }
+axum = { version = "0.7", features = ["macros", "json"] }
+tokio = { version = "1", features = ["full"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "1"
+tower-http = { version = "0.5", features = ["cors", "fs", "trace"] }
+anyhow = "1"
+colored = "2.0"
+
+[dev-dependencies]
+tempfile = "3.0"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true

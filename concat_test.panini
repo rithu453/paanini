@@ -1,0 +1,7 @@
+name = "विश्व"
+दर्श("Hello " + name)
+दर्श("Direct: नमस्ते विश्व")
+
+temperature = 25.5  
+दर्श(temperature)
+दर्श("Temperature is " + temperature)

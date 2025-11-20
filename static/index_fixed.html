@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Panini IDE</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; background: #0b1220; color: #e6edf3; }
+      header { padding: 16px 20px; background: #0f172a; border-bottom: 1px solid #1e293b; display: flex; align-items: center; justify-content: space-between; }
+      header h1 { margin: 0; font-size: 18px; }
+      main { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
+      textarea { width: 100%; height: 60vh; background: #0a0f1a; color: #e6edf3; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; resize: none; }
+      pre { width: 100%; height: 60vh; background: #070c14; color: #e6edf3; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; overflow: auto; margin: 0; }
+      .toolbar { display: flex; gap: 8px; align-items: center; }
+      button { background: #2563eb; color: white; border: 0; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+      button:disabled { opacity: 0.6; cursor: not-allowed; }
+      .hint { color: #9aa4b2; font-size: 12px; }
+      .col { display: flex; flex-direction: column; gap: 8px; }
+      footer { padding: 10px 16px; color: #9aa4b2; font-size: 12px; border-top: 1px solid #1e293b; }
+      @media (max-width: 900px) { main { grid-template-columns: 1fr; } textarea, pre { height: 40vh; } }
+
+      /* Floating Virtual Keyboard */
+      .floating-kb { 
+        position: fixed; 
+        top: 20%; 
+        left: 20%; 
+        width: 800px; 
+        max-width: 90vw; 
+        background: #0a0f1a; 
+        border: 2px solid #1e293b; 
+        border-radius: 12px; 
+        box-shadow: 0 8px 32px rgba(0,0,0,0.6); 
+        z-index: 1000; 
+        display: none;
+        resize: both;
+        overflow: hidden;
+        min-width: 400px;
+        min-height: 300px;
+      }
+      .floating-kb.visible { display: block; }
+      .kb-header { 
+        background: #1e293b; 
+        padding: 8px 12px; 
+        border-radius: 10px 10px 0 0; 
+        cursor: move; 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center;
+        user-select: none;
+      }
+      .kb-header h3 { margin: 0; font-size: 14px; color: #e6edf3; }
+      .kb-close { background: #ef4444; color: white; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; font-size: 12px; }
+      .kb-tabs { display: flex; background: #0f172a; border-bottom: 1px solid #1e293b; }
+      .kb-tab { padding: 8px 16px; background: #0f172a; border: none; color: #9aa4b2; cursor: pointer; border-bottom: 2px solid transparent; flex: 1; }
+      .kb-tab.active { color: #e6edf3; border-bottom-color: #3b82f6; background: #1e293b; }
+      .kb-content { padding: 12px; height: calc(100% - 80px); overflow-y: auto; }
+      .kb-layer { display: none; height: 100%; }
+      .kb-layer.active { display: block; }
+      .kb-grid { 
+        display: grid; 
+        grid-template-columns: repeat(auto-fit, minmax(40px, 1fr)); 
+        gap: 4px; 
+        margin-bottom: 12px;
+        height: auto;
+      }
+      .kb-row { display: contents; }
+      .key { 
+        background: #0f172a; 
+        border: 1px solid #374151; 
+        border-radius: 4px; 
+        padding: 8px 4px; 
+        text-align: center; 
+        font-size: 14px; 
+        user-select: none; 
+        cursor: pointer; 
+        transition: all .15s; 
+        min-height: 32px; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        word-break: break-all;
+      }
+      .key:hover { background: #374151; }
+      .key.active { background: #1d4ed8; border-color: #3b82f6; color: white; transform: scale(1.05); }
+      .key.wide { grid-column: span 2; }
+      .key.space { grid-column: span 4; }
+      .tutor-panel { 
+        margin-top: 12px; 
+        padding: 12px; 
+        background: #0a0f1a; 
+        border: 1px solid #1e293b; 
+        border-radius: 8px; 
+        color: #cbd5e1; 
+        max-height: 120px; 
+        overflow-y: auto;
+      }
+      .tutor-line { 
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; 
+        font-size: 12px; 
+        margin: 4px 0; 
+        padding: 2px 0;
+      }
+      .tutor-line .en { color: #93c5fd; }
+      .tutor-line .sa { color: #fbbf24; }
+      .resize-handle {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 20px;
+        height: 20px;
+        background: #374151;
+        cursor: se-resize;
+        border-radius: 0 0 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Panini IDE</h1>
+      <div class="toolbar">
+        <button id="runBtn">Run ▶</button>
+        <button id="sampleBtn">Load Sample</button>
+        <button id="toggleKbBtn">Show Keyboard</button>
+        <span class="hint">POST /api/run • Real-time Sanskrit Transliteration</span>
+      </div>
+    </header>
+    <main>
+      <div class="col">
+        <textarea id="code" spellcheck="false" placeholder="Type English to get Sanskrit automatically..."></textarea>
+      </div>
+      <div class="col">
+        <pre id="output"></pre>
+      </div>
+    </main>
+    
+    <!-- Floating Virtual Keyboard -->
+    <div id="floatingKb" class="floating-kb">
+      <div class="kb-header" id="kbHeader">
+        <h3>🎹 Virtual Keyboard - Sanskrit Input</h3>
+        <button class="kb-close" id="kbClose">×</button>
+      </div>
+      <div class="kb-tabs">
+        <button class="kb-tab active" data-layer="english">English (QWERTY)</button>
+        <button class="kb-tab" data-layer="sanskrit">Sanskrit (देवनागरी)</button>
+      </div>
+      <div class="kb-content">
+        <div id="englishLayer" class="kb-layer active">
+          <div class="kb-grid" id="englishGrid"></div>
+        </div>
+        <div id="sanskritLayer" class="kb-layer">
+          <div class="kb-grid" id="sanskritGrid"></div>
+        </div>
+        <div class="tutor-panel" id="tutorPanel">
+          <div class="tutor-line"><strong>Real-time Transliteration:</strong> EN → SA</div>
+          <div class="tutor-line">Type English words and see them transform to Sanskrit!</div>
+        </div>
+      </div>
+      <div class="resize-handle" id="resizeHandle"></div>
+    </div>
+
+    <footer>
+      Panini supports: दर्श(expr), असाइन (x = 5), यदि/अन्यथा, यावत्, परिभ्रमण+परिधि, कार्य, !! टिप्पण्यः.
+    </footer>
+    
+    <script>
+      // DOM elements
+      const codeEl = document.getElementById('code');
+      const outEl = document.getElementById('output');
+      const runBtn = document.getElementById('runBtn');
+      const sampleBtn = document.getElementById('sampleBtn');
+      const toggleKbBtn = document.getElementById('toggleKbBtn');
+      const floatingKb = document.getElementById('floatingKb');
+      const kbClose = document.getElementById('kbClose');
+      const kbHeader = document.getElementById('kbHeader');
+      const englishGrid = document.getElementById('englishGrid');
+      const sanskritGrid = document.getElementById('sanskritGrid');
+      const tutorPanel = document.getElementById('tutorPanel');
+      const resizeHandle = document.getElementById('resizeHandle');
+
+      // Enhanced keyboard layouts with proper QWERTY layout
+      const englishLayout = [
+        ['1','2','3','4','5','6','7','8','9','0','-','='],
+        ['q','w','e','r','t','y','u','i','o','p','[',']'],
+        ['a','s','d','f','g','h','j','k','l',';',"'"],
+        ['z','x','c','v','b','n','m',',','.','/',],
+        ['space', 'enter']
+      ];
+
+      const sanskritLayout = [
+        ['अ','आ','इ','ई','उ','ऊ','ए','ऐ','ओ','औ','अं','अः'],
+        ['क','ख','ग','घ','ङ','च','छ','ज','झ','ञ','ट','ठ'],
+        ['ड','ढ','ण','त','थ','द','ध','न','प','फ','ब','भ'],
+        ['म','य','र','ल','व','श','ष','स','ह','क्ष','त्र','ज्ञ'],
+        ['०','१','२','३','४','५','६','७','८','९','।','॥'],
+        ['ा','ि','ी','ु','ू','े','ै','ो','ौ','ं','ः','्']
+      ];
+
+      // Enhanced transliteration mapping with comprehensive coverage
+      const transMap = {
+        // Vowels
+        'a': 'अ', 'aa': 'आ', 'i': 'इ', 'ii': 'ई', 'u': 'उ', 'uu': 'ऊ',
+        'e': 'ए', 'ai': 'ऐ', 'o': 'ओ', 'au': 'औ',
+        // Basic consonants
+        'k': 'क', 'kh': 'ख', 'g': 'ग', 'gh': 'घ', 'ng': 'ङ',
+        'ch': 'च', 'chh': 'छ', 'j': 'ज', 'jh': 'झ', 'ny': 'ञ',
+        't': 'त', 'th': 'थ', 'd': 'द', 'dh': 'ध', 'n': 'न',
+        'p': 'प', 'ph': 'फ', 'b': 'ब', 'bh': 'भ', 'm': 'म',
+        'y': 'य', 'r': 'र', 'l': 'ल', 'v': 'व', 'w': 'व',
+        's': 'स', 'sh': 'श', 'ss': 'ष', 'h': 'ह',
+        // Compound consonants
+        'ksh': 'क्ष', 'tr': 'त्र', 'gy': 'ज्ञ', 'gn': 'ज्ञ',
+        // Extended words for the IDE
+        'darsh': 'दर्श', 'yadi': 'यदि', 'anyatha': 'अन्यथा', 'yavat': 'यावत्',
+        'paribhraman': 'परिभ्रमण', 'paridhi': 'परिधि', 'karya': 'कार्य',
+        'namaste': 'नमस्ते', 'vishva': 'विश्व', 'satya': 'सत्य', 'asatya': 'असत्य',
+        'bharata': 'भारत', 'bharat': 'भारत', 'sanskrit': 'संस्कृत',
+        // Numbers  
+        '0': '०', '1': '१', '2': '२', '3': '३', '4': '४',
+        '5': '५', '6': '६', '7': '७', '8': '८', '9': '९'
+      };
+
+      // Build keyboard layouts
+      function buildKeyboard(container, layout) {
+        container.innerHTML = '';
+        layout.forEach(row => {
+          row.forEach(key => {
+            const keyEl = document.createElement('div');
+            keyEl.className = 'key';
+            keyEl.dataset.key = key;
+            keyEl.textContent = key;
+            
+            if (key === 'space') {
+              keyEl.classList.add('space');
+              keyEl.textContent = 'Space';
+            } else if (key === 'enter') {
+              keyEl.classList.add('wide');
+              keyEl.textContent = 'Enter';
+            }
+            
+            // Add click functionality for virtual keyboard input
+            keyEl.addEventListener('click', () => {
+              insertKeyAtCursor(key);
+              highlightKey(container, key, 300);
+            });
+            
+            container.appendChild(keyEl);
+          });
+        });
+      }
+
+      // Insert key at current cursor position
+      function insertKeyAtCursor(key) {
+        const start = codeEl.selectionStart;
+        const end = codeEl.selectionEnd;
+        const current = codeEl.value;
+        
+        let insertText = key;
+        if (key === 'space') insertText = ' ';
+        if (key === 'enter') insertText = '\n';
+        
+        const newValue = current.substring(0, start) + insertText + current.substring(end);
+        codeEl.value = newValue;
+        codeEl.setSelectionRange(start + insertText.length, start + insertText.length);
+        codeEl.focus();
+        
+        // Trigger input event for transliteration
+        codeEl.dispatchEvent(new Event('input'));
+      }
+
+      buildKeyboard(englishGrid, englishLayout);
+      buildKeyboard(sanskritGrid, sanskritLayout);
+
+      // Tab switching functionality
+      document.querySelectorAll('.kb-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.kb-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.kb-layer').forEach(l => l.classList.remove('active'));
+          tab.classList.add('active');
+          document.getElementById(tab.dataset.layer + 'Layer').classList.add('active');
+        });
+      });
+
+      // Enhanced dragging functionality
+      let isDragging = false;
+      let dragOffset = { x: 0, y: 0 };
+
+      kbHeader.addEventListener('mousedown', (e) => {
+        if (e.target === kbClose) return; // Don't drag when clicking close button
+        isDragging = true;
+        dragOffset.x = e.clientX - floatingKb.offsetLeft;
+        dragOffset.y = e.clientY - floatingKb.offsetTop;
+        document.addEventListener('mousemove', onDrag);
+        document.addEventListener('mouseup', stopDrag);
+        e.preventDefault();
+      });
+
+      function onDrag(e) {
+        if (!isDragging) return;
+        const newLeft = Math.max(0, Math.min(window.innerWidth - floatingKb.offsetWidth, e.clientX - dragOffset.x));
+        const newTop = Math.max(0, Math.min(window.innerHeight - floatingKb.offsetHeight, e.clientY - dragOffset.y));
+        floatingKb.style.left = newLeft + 'px';
+        floatingKb.style.top = newTop + 'px';
+      }
+
+      function stopDrag() {
+        isDragging = false;
+        document.removeEventListener('mousemove', onDrag);
+        document.removeEventListener('mouseup', stopDrag);
+      }
+
+      // Resize functionality
+      let isResizing = false;
+      let resizeStart = { x: 0, y: 0, width: 0, height: 0 };
+
+      resizeHandle.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        resizeStart.x = e.clientX;
+        resizeStart.y = e.clientY;
+        resizeStart.width = floatingKb.offsetWidth;
+        resizeStart.height = floatingKb.offsetHeight;
+        document.addEventListener('mousemove', onResize);
+        document.addEventListener('mouseup', stopResize);
+        e.preventDefault();
+      });
+
+      function onResize(e) {
+        if (!isResizing) return;
+        const newWidth = Math.max(400, resizeStart.width + (e.clientX - resizeStart.x));
+        const newHeight = Math.max(300, resizeStart.height + (e.clientY - resizeStart.y));
+        floatingKb.style.width = newWidth + 'px';
+        floatingKb.style.height = newHeight + 'px';
+      }
+
+      function stopResize() {
+        isResizing = false;
+        document.removeEventListener('mousemove', onResize);
+        document.removeEventListener('mouseup', stopResize);
+      }
+
+      // Toggle keyboard visibility
+      toggleKbBtn.addEventListener('click', () => {
+        floatingKb.classList.toggle('visible');
+        toggleKbBtn.textContent = floatingKb.classList.contains('visible') ? 'Hide Keyboard' : 'Show Keyboard';
+      });
+
+      kbClose.addEventListener('click', () => {
+        floatingKb.classList.remove('visible');
+        toggleKbBtn.textContent = 'Show Keyboard';
+      });
+
+      // Enhanced transliteration with greedy matching
+      function transliterate(text) {
+        let result = text;
+        
+        // Sort by length (longest first) for greedy matching
+        const sortedKeys = Object.keys(transMap).sort((a, b) => b.length - a.length);
+        
+        for (const english of sortedKeys) {
+          const sanskrit = transMap[english];
+          // Use word boundaries for better matching
+          const regex = new RegExp('\\b' + english.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'gi');
+          result = result.replace(regex, sanskrit);
+        }
+        
+        return result;
+      }
+
+      function highlightKey(container, key, duration = 200) {
+        const keyEl = container.querySelector(`[data-key="${key}"]`);
+        if (keyEl) {
+          keyEl.classList.add('active');
+          setTimeout(() => keyEl.classList.remove('active'), duration);
+        }
+      }
+
+      function updateTutor(original, sanskrit) {
+        if (original === sanskrit || !original.trim()) return;
+        
+        const line = document.createElement('div');
+        line.className = 'tutor-line';
+        line.innerHTML = `<span class="en">${escapeHtml(original)}</span> → <span class="sa">${escapeHtml(sanskrit)}</span>`;
+        tutorPanel.appendChild(line);
+        
+        // Keep only last 15 lines
+        while (tutorPanel.children.length > 17) { // 15 + header lines
+          tutorPanel.removeChild(tutorPanel.children[2]); // Keep first 2 header lines
+        }
+        
+        tutorPanel.scrollTop = tutorPanel.scrollHeight;
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      // Real-time input handling with enhanced word-by-word transliteration
+      let lastValue = '';
+      codeEl.addEventListener('input', (e) => {
+        const cursorPos = codeEl.selectionStart;
+        const currentValue = codeEl.value;
+        
+        // Find words that changed and transliterate them
+        const words = currentValue.split(/(\s+|[^\w\s])/);
+        const translatedWords = words.map(word => {
+          if (/^[a-zA-Z]+$/.test(word) && word.length > 1) { // Only transliterate multi-char words
+            const sanskrit = transliterate(word);
+            if (sanskrit !== word) {
+              updateTutor(word, sanskrit);
+              return sanskrit;
+            }
+          }
+          return word;
+        });
+        
+        const newValue = translatedWords.join('');
+        if (newValue !== currentValue) {
+          const cursorOffset = newValue.length - currentValue.length;
+          codeEl.value = newValue;
+          codeEl.setSelectionRange(cursorPos + cursorOffset, cursorPos + cursorOffset);
+        }
+        
+        lastValue = newValue;
+      });
+
+      // Enhanced key highlighting on keydown
+      codeEl.addEventListener('keydown', (e) => {
+        const key = e.key.toLowerCase();
+        if (key.length === 1 && /[a-z0-9]/.test(key)) {
+          highlightKey(englishGrid, key);
+          
+          // Highlight corresponding Sanskrit character if exists
+          const sanskrit = transMap[key];
+          if (sanskrit) {
+            highlightKey(sanskritGrid, sanskrit);
+          }
+        }
+      });
+
+      // Sample button with enhanced content
+      sampleBtn.addEventListener('click', () => {
+        codeEl.value = `!! नमूना: चर, मुद्रण, शर्त, लूप, फंक्शन
+x = 5
+darsh(x)
+name = "vishva"
+darsh("namaste " + name)
+yadi x == 5:
+  darsh("satya")
+anyatha:
+  darsh("asatya")
+yavat x < 8:
+  darsh(x)
+  x = x + 1
+paribhraman i in paridhi(3):
+  darsh(i)
+karya greet(name):
+  darsh("namaste " + name)
+greet("bharat")`;
+        outEl.textContent = '';
+        codeEl.focus();
+      });
+
+      // Enhanced run button with better error handling
+      runBtn.addEventListener('click', async () => {
+        const code = codeEl.value;
+        if (!code.trim()) {
+          outEl.textContent = 'Error: Please enter some code to run.';
+          return;
+        }
+        
+        runBtn.disabled = true;
+        runBtn.textContent = 'Running...';
+        outEl.textContent = 'Running...';
+        
+        try {
+          const res = await fetch('/api/run', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code })
+          });
+          
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          
+          const data = await res.json();
+          const errors = data.errors && data.errors.length ? '\nErrors:\n' + data.errors.join('\n') : '';
+          outEl.textContent = data.output + errors;
+        } catch (e) {
+          outEl.textContent = 'Request failed: ' + e.message + '\nMake sure the server is running at http://localhost:8080';
+        } finally {
+          runBtn.disabled = false;
+          runBtn.textContent = 'Run ▶';
+        }
+      });
+
+      // Keyboard shortcuts
+      document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey || e.metaKey) {
+          switch (e.key) {
+            case 'Enter':
+              e.preventDefault();
+              runBtn.click();
+              break;
+            case 'k':
+              e.preventDefault();
+              toggleKbBtn.click();
+              break;
+          }
+        }
+        if (e.key === 'Escape' && floatingKb.classList.contains('visible')) {
+          floatingKb.classList.remove('visible');
+          toggleKbBtn.textContent = 'Show Keyboard';
+        }
+      });
+
+      // Initialize
+      sampleBtn.click();
+      codeEl.focus();
+      
+      console.log('🎹 Panini IDE with Virtual Keyboard loaded successfully!');
+      console.log('🔑 Shortcuts: Ctrl+Enter (run), Ctrl+K (toggle keyboard), Esc (hide keyboard)');
+    </script>
+  </body>
+</html>

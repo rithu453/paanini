@@ -1,0 +1,38 @@
+!! लूप उदाहरण - Loop Examples
+!! Demonstrates while loops and for loops in Panini
+
+दर्श("=== Loop Examples ===")
+
+!! While loop example
+दर्श("\n1. While Loop (यावत्) - Count to 5:")
+count = 1
+यावत् count <= 5:
+    दर्श("Count:", count)
+    count = count + 1
+
+!! For loop with range
+दर्श("\n2. For Loop (परिभ्रमण) - Range 0 to 4:")
+परिभ्रमण i in परिधि(5):
+    दर्श("Index:", i)
+
+!! For loop with calculations
+दर्श("\n3. Multiplication Table for 3:")
+परिभ्रमण i in परिधि(1, 11):
+    result = 3 * i
+    दर्श("3 x", i, "=", result)
+
+!! Nested loops example
+दर्श("\n4. Nested Loops - Simple Pattern:")
+परिभ्रमण row in परिधि(3):
+    line = ""
+    परिभ्रमण col in परिधि(row + 1):
+        line = line + "* "
+    दर्श(line)
+
+!! Conditional inside loop
+दर्श("\n5. Even/Odd Numbers from 1 to 10:")
+परिभ्रमण num in परिधि(1, 11):
+    यदि num % 2 == 0:
+        दर्श(num, "is even (सम)")
+    अन्यथा:
+        दर्श(num, "is odd (विषम)")

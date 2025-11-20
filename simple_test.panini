@@ -1,0 +1,6 @@
+x = 42
+दर्श(x)
+result = x + 8
+दर्श(result)
+message = "परिणाम: " + result
+दर्श(message)

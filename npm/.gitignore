@@ -1,0 +1,7 @@
+node_modules/
+*.log
+npm-debug.log*
+.DS_Store
+bin/panini
+bin/panini.exe
+test-output/

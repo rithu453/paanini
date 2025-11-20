@@ -1,0 +1,37 @@
+# ===== 🕉️ Panini Programming Language Demo =====
+
+# Variables and Basic Math
+x = 42
+y = 8
+result = x + y
+दर्श("✓ Arithmetic: " + x + " + " + y + " = " + result)
+
+# Sanskrit Booleans  
+is_working = सत्य
+has_bugs = असत्य
+दर्श("✓ Booleans: Working=" + is_working + ", Bugs=" + has_bugs)
+
+# String Operations
+greeting = "🕉️ नमस्ते"
+target = "संसार" 
+full_message = greeting + " " + target + "!"
+दर्श("✓ Strings: " + full_message)
+
+# Mixed Type Concatenation
+version = 0.1
+status = "Panini v" + version + " - " + सत्य
+दर्श("✓ Mixed Types: " + status)
+
+# Built-in Functions
+range_demo = परिधि(3)
+दर्श("✓ Range Function: " + range_demo)
+
+# Complex Expression
+a = 10
+b = 20
+c = 5
+complex_calc = a + b + c
+दर्श("✓ Multi-variable: " + a + "+" + b + "+" + c + "=" + complex_calc)
+
+दर्श("🎉 All core features working!")
+दर्श("Note: Comparison operators (==, !=) work only in 'if' statements, not assignments")

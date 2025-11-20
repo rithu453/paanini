@@ -1,0 +1,44 @@
+{
+  "name": "paanini-lang",
+  "version": "0.1.0",
+  "description": "Panini - Sanskrit programming language with Python-like syntax. CLI tool for running, building, and developing in Sanskrit.",
+  "main": "index.js",
+  "bin": {
+    "panini": "./bin/panini.js"
+  },
+  "scripts": {
+    "postinstall": "node install.js",
+    "test": "node test.js"
+  },
+  "keywords": [
+    "sanskrit",
+    "programming-language",
+    "cli",
+    "devanagari",
+    "interpreter",
+    "transpiler",
+    "panini",
+    "indian-languages"
+  ],
+  "author": "Panini Developers",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/paanini-lang.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "os": [
+    "win32",
+    "darwin",
+    "linux"
+  ],
+  "files": [
+    "bin/",
+    "install.js",
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ]
+}

@@ -1,0 +1,5 @@
+x = 42
+दर्श("x का मान: " + str(x))
+result = x + 8
+दर्श("result का मान: " + str(result))
+दर्श("calculation: " + str(x + 8))

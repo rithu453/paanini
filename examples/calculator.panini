@@ -1,0 +1,39 @@
+!! गणक - Calculator Example
+!! Demonstrates functions, conditionals, and loops
+
+!! Function to add two numbers
+कार्य add(a, b):
+    return a + b
+
+!! Function to multiply two numbers  
+कार्य multiply(a, b):
+    result = a * b
+    return result
+
+!! Function to check if number is positive
+कार्य is_positive(num):
+    यदि num > 0:
+        return true
+    अन्यथा:
+        return false
+
+!! Main calculations
+x = 15
+y = 25
+
+योग = add(x, y)
+गुणन = multiply(x, y)
+
+दर्श("Numbers:", x, "and", y)
+दर्श("योग (Sum):", योग)
+दर्श("गुणन (Product):", गुणन)
+
+!! Test positive/negative
+दर्श("Is", x, "positive?", is_positive(x))
+दर्श("Is", -5, "positive?", is_positive(-5))
+
+!! Loop through some calculations
+दर्श("\nCalculation Table:")
+परिभ्रमण i in परिधि(5):
+    square = multiply(i, i)
+    दर्श("Square of", i, "=", square)
